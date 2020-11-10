@@ -11,10 +11,9 @@ using ParkyAPI.Repository.IRepository;
 
 namespace ParkyAPI.Controllers
 {
-    [Route("api/[controllers]")]
+    [Route("api/v{version:apiVersion}/trails")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ApiExplorerSettings(GroupName = "ParkyOpenAPISpec")]
     public class TrailsController : Controller
     {
         private readonly ITrailRepository _trailRepository;
@@ -26,7 +25,7 @@ namespace ParkyAPI.Controllers
         }
 
         /// <summary>
-        /// Get list of national parks
+        /// Get list of trails
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -43,7 +42,7 @@ namespace ParkyAPI.Controllers
         }
 
         /// <summary>
-        /// Get individual national park
+        /// Get individual trail
         /// </summary>
         /// <param name="trailId"></param>
         /// <returns></returns>
@@ -63,7 +62,31 @@ namespace ParkyAPI.Controllers
         }
 
         /// <summary>
-        /// Create national park
+        /// Get trails in national park
+        /// </summary>
+        /// <param name="trailId"></param>
+        /// <returns></returns>
+        [HttpGet("[action]/{nationalParkId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TrailDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public IActionResult GetTrailsInNationalPark(int nationalParkId)
+        {
+            var parks = _trailRepository.GetTrailsInNationalPark(nationalParkId);
+            if (parks != null)
+            {
+                List<TrailDto> trails = new List<TrailDto>();
+                foreach (var park in parks)
+                {
+                    trails.Add(_mapper.Map<TrailDto>(park));
+                }              
+                return Ok(trails);
+            }
+            return NotFound();
+        }
+
+        /// <summary>
+        /// Create trail
         /// </summary>
         /// <param name="trailDto"></param>
         /// <returns></returns>
@@ -92,11 +115,11 @@ namespace ParkyAPI.Controllers
                 ModelState.AddModelError("", $"Something went wrong when saving the record {trailObj.Name}");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtRoute("GetTrail", new { trailId = trailObj.Id }, trailObj);
+            return CreatedAtRoute("GetTrail", new { version = HttpContext.GetRequestedApiVersion().ToString(), trailId = trailObj.Id }, trailObj);
         }
 
         /// <summary>
-        /// Update national park
+        /// Update trail
         /// </summary>
         /// <param name="trailId"></param>
         /// <param name="trailDto"></param>
@@ -125,7 +148,7 @@ namespace ParkyAPI.Controllers
         }
 
         /// <summary>
-        /// Delete national park
+        /// Delete trail
         /// </summary>
         /// <param name="trailId"></param>
         /// <returns></returns>
