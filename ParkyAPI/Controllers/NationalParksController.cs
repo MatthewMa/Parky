@@ -134,11 +134,12 @@ namespace ParkyAPI.Controllers
         [HttpDelete("{nationalParkId:int}")]
         [ProducesResponseType(201, Type = typeof(NationalParkDto))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status302Found)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesDefaultResponseType]
         public IActionResult DeleteNationalPark(int nationalParkId)
         {
-            if (_nationalParkRepository.NationalParkExists(nationalParkId))
+            if (!_nationalParkRepository.NationalParkExists(nationalParkId))
             {                
                 return NotFound();
             }
