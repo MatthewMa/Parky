@@ -37,7 +37,7 @@ namespace ParkyAPI.Repository
 
         public ICollection<Trail> GetTrails()
         {
-            return _db.Trails.OrderBy(n => n.Name).ToList();
+            return _db.Trails.Include(t => t.NationalPark).OrderBy(n => n.Name).ToList();
         }
 
         public bool TrailExists(string name)

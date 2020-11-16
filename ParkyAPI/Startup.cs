@@ -46,6 +46,7 @@ namespace ParkyAPI
             // Config Repository Pattern
             services.AddScoped<INationalParkRepository, NationalParkRepository>();
             services.AddScoped<ITrailRepository, TrailRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             // Config Auto Mapper
             services.AddAutoMapper(typeof(ParkyMappings));
             //API version config
