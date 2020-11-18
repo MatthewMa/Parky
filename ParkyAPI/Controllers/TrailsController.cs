@@ -13,6 +13,7 @@ using ParkyAPI.Repository.IRepository;
 namespace ParkyAPI.Controllers
 {
     [Route("api/v{version:apiVersion}/trails")]
+    [ApiVersion("1.0")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class TrailsController : ControllerBase

@@ -1,0 +1,8 @@
+﻿@model ParkyWeb.Models.User
+<h1>Register</h1>
+<form method="post" asp-action="Login">
+    <input asp-for="UserName" type="text" placeholder="Username" required/>
+    <input asp-for="Password" type="password" placeholder="Password" required/>
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+

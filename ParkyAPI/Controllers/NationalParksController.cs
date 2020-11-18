@@ -11,7 +11,7 @@ using ParkyAPI.Models.Dtos;
 using ParkyAPI.Repository.IRepository;
 
 namespace ParkyAPI.Controllers
-{
+{  
     [Route("api/v{version:apiVersion}/nationalparks")]
     //[Route("api/[controller]")]
     [ApiVersion("1.0")]   
